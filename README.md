@@ -1,5 +1,5 @@
 # Dischook
-Dischook is an easy-to-use yet powerful modules for interacting with Discord webhooks.
+Dischook is an easy-to-use, yet powerful modules for interacting with Discord webhooks.
 # Getting Started
 > Installing
 ```
