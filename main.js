@@ -61,7 +61,6 @@ module.exports = class Dischook {
 	setColor(text) {
 		text =  text.replace(/#/g, '')
 		text = parseInt(text, 16)
-		console.log(text)
 		Object.assign(this.message.embeds[0], {
 			color: text
 		})
@@ -88,7 +87,7 @@ module.exports = class Dischook {
 		return this
 	}
 	/**
-	 * @param {string} message 
+	 * @param {string} message Plain message
 	 * @returns Message sent to webhook through POST request
 	 */
 	send(message = null) {
@@ -100,12 +99,11 @@ module.exports = class Dischook {
 					avatar_url: this.avatar_url,
 					content: message
 				})
-				.then(() => console.log('Sent that!'))
+				.then().catch(console.error)
 		}
 		if (!message && isEmpty(this.message.embeds[0])) throw new EmptyEmbed('main.js')
 		fetch.post(this.webhook)
 			.send(this.message)
-			.then(() => console.log('Sent that!'))
-			.catch(console.error)
+			.then().catch(console.error)
 	}
 }
