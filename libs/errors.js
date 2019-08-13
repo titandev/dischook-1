@@ -1,5 +1,5 @@
 class EmptyMessage extends Error {
-	constructor(file = nul) {
+	constructor(file = null) {
 		super('Failed to send Request: Cannot send an empty message and/or embed.', file)
 		this.name = this.constructor.name
 		this.file = file

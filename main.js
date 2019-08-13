@@ -1,10 +1,7 @@
-const fetch = require('snekfetch')
-const { EmptyMessage, InvalidWebhook } = require('./libs/errors')
+const fetch = require('node-fetch')
+const { InvalidWebhook, EmptyMessage } = require('./libs/errors')
 function isEmpty(obj) {
-	for (var p in obj) {
-		if (obj.hasOwnProperty(p)) return false;
-	}
-	return true;
+	return Object.keys(obj).length === 0 && obj.constructor === Object
 }
 module.exports = class Dischook {
 	/**
@@ -99,6 +96,7 @@ module.exports = class Dischook {
 				'url': url
 			}
 		})
+		return this
 	}
 	/**
 	 * 
@@ -132,21 +130,22 @@ module.exports = class Dischook {
 	 */
 	send(message = null) {
 		async function post(webhook, data) {
-			fetch.post(webhook).send(data)
-				.then(res => {
-					if (res.statusCode === 204)
-						console.log(chalk.green('[DISCHOOK]: ') + 'Successfully sent a \'POST\' request.')
-				}).catch(err => {
-					if (err) if (err.code === 'ECONNRESET' || 'ETIMEDOUT') throw new InvalidWebhook(__dirname, err.code)
-					if (err.body) if (err.body.code === 50006) throw new EmptyMessage()
-				})
+			data = JSON.stringify(data)
+			fetch(webhook, {
+				method: 'post',
+				body: data,
+				headers: { 'Content-Type': 'application/json' },
+			}).then().catch(err => {
+				if (err) if (err.code === 'ECONNRESET' || 'ETIMEDOUT') throw new InvalidWebhook(__dirname, err.code)
+				if (err.body) if (err.body.code === 50006) throw new EmptyMessage()
+			})
 		}
 		if (message && !isEmpty(this.message.embeds[0])) {
-			post(this.webhook, { "content": message, "embeds": this.message.embeds })
+			post(this.webhook, { "content": message, "embeds": this.message.embeds, "username": this.name, "avatar_url": this.avatar_url })
 		} else if (message && isEmpty(this.message.embeds[0])) {
-			post(this.webhook, { "content": message })
+			post(this.webhook, { "content": message, "username": this.name, "avatar_url": this.avatar_url })
 		} else if (!message && !isEmpty(this.message.embeds[0])) {
-			post(this.webhook, { "embeds": this.message.embeds })
+			post(this.webhook, { "embeds": this.message.embeds, "username": this.name, "avatar_url": this.avatar_url })
 		} else throw new EmptyMessage()
 	}
 }

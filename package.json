@@ -1,17 +1,30 @@
 {
   "name": "dischook",
-  "version": "1.0.6",
-  "description": "",
+  "version": "1.0.0",
+  "description": "A simple and lightweight webhook library for discord",
   "main": "main.js",
-  "scripts": {
-    "test": "echo \"No test specified\""
-  },
-  "author": "Retr0n, Nightz",
-  "license": "ISC",
   "dependencies": {
+    "node-fetch": "^2.6.0",
     "snekfetch": "^4.0.4"
   },
   "devDependencies": {
     "eslint": "^6.1.0"
-  }
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/itsretr0n/dischook.git"
+  },
+  "keywords": [
+    "webhook",
+    "discord"
+  ],
+  "author": "Retr0n, Nightz",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/itsretr0n/dischook/issues"
+  },
+  "homepage": "https://github.com/itsretr0n/dischook#readme"
 }
