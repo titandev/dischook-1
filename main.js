@@ -136,8 +136,10 @@ module.exports = class Dischook {
 				body: data,
 				headers: { 'Content-Type': 'application/json' },
 			}).then().catch(err => {
-				if (err) if (err.code === 'ECONNRESET' || 'ETIMEDOUT') throw new InvalidWebhook(__dirname, err.code)
-				if (err.body) if (err.body.code === 50006) throw new EmptyMessage()
+				if (err) {
+ 					if (err.code === 'ECONNRESET' || 'ETIMEDOUT') throw new InvalidWebhook(__dirname, err.code)
+                	if (err.body && err.body.code === 50006) throw new EmptyMessage()
+				}
 			})
 		}
 		if (message && !isEmpty(this.message.embeds[0])) {
