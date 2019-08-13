@@ -9,10 +9,10 @@ module.exports = class Dischook {
 	 * @description Initialization for Dischook to send a message through the webhook URL
 	 */
 	constructor(url, name = null, avatar_url = null) {
-		this.webhook = url
-		this.name = name
-		this.avatar_url = avatar_url
-		this.message = {
+		this['webhook'] = url
+		this['name'] = name
+		this['avatar_url'] = avatar_url
+		this['message'] = {
 			embeds: [{}]
 		}
 		if (name) Object.assign(this.message, {
@@ -23,7 +23,8 @@ module.exports = class Dischook {
 		})
 	}
 	/**
-	 * @param {string} text The title's text
+	 * @param {string} text The title's value
+	 * @description Sets the title of the embed (1)
 	 */
 	setTitle(text) {
 		Object.assign(this.message.embeds[0], {
@@ -31,6 +32,10 @@ module.exports = class Dischook {
 		})
 		return this
 	}
+	/**
+	 * @param {text} text The descriptions value
+	 * @description Sets a description of the embed (1)
+	 */
 	setDescription(text) {
 		Object.assign(this.message.embeds[0], {
 			description: text
@@ -39,8 +44,9 @@ module.exports = class Dischook {
 	}
 	/**
 	 * @param {String} title Fields title
-	 * @param {String} value Fields text 
+	 * @param {String} value Fields value 
 	 * @param {Boolean} [inline=false] Inline field or not
+	 * @description Adds a field into the embed (infinite)
 	 */
 	addField(title, value, inline = false) {
 		if (!this.message.embeds[0].fields) {
@@ -56,7 +62,8 @@ module.exports = class Dischook {
 		return this
 	}
 	/**
-	 * @param {(String|Number)} text (HEX) Sets embeds color
+	 * @param {(String|Number)} text (HEX) Embeds color
+	 * @description Changes the side bar color of the embed (1)
 	 */
 	setColor(text) {
 		text =  text.replace(/#/g, '')
@@ -67,7 +74,8 @@ module.exports = class Dischook {
 		return this
 	}
 	/**
-	 * @param {string} text Footers text
+	 * @param {string} text Footers value
+	 * @description Sets the footer of the embed (1)
 	 */
 	setFooter(text) {
 		Object.assign(this.message.embeds[0], {
@@ -79,6 +87,7 @@ module.exports = class Dischook {
 	}
 	/**
 	 * @returns Current date
+	 * @description Adds a timestamp into the embed, with the time the message was sent at (1)
 	 */
 	setTimestamp() {
 		Object.assign(this.message.embeds[0], {
@@ -88,7 +97,7 @@ module.exports = class Dischook {
 	}
 	/**
 	 * @param {string} message Plain message
-	 * @returns Message sent to webhook through POST request
+	 * @returns Message to discord channel sent through webhook with POST request
 	 */
 	send(message = null) {
 		if (isEmpty(this.message.embeds[0]) && message) {

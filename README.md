@@ -7,7 +7,7 @@ const dischook  =  require('dischook');
 //Embeds are done exactly like in the Discord.js library
 const webhookURL = 'https://discordapp.com/api/webhooks/74947297497294/AhkKjfosAYQIslfh'
 const avatarURL = 'https://some-image-url.com/image.png'
-new dischook(webhookURL,'Retr0n',avatarURL)
+new dischook(webhookURL, 'Example Bot', avatarURL)
 .setTitle('Im a title!')
 .setDescription('Im a description!')
 .addField('Field', '1')
@@ -23,6 +23,6 @@ const dischook  =  require('dischook');
 //Just as easy to send a normal message
 const webhookURL = 'https://discordapp.com/api/webhooks/74947297497294/AhkKjfosAYQIslfh'
 const avatarURL = 'https://some-image-url.com/image.png'
-new dischook(webhookURL,'Retr0n',avatarURL)
+new dischook(webhookURL, 'Example Bot', avatarURL)
 .send('This is a regular message with no embed')
 ```
