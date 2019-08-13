@@ -56,9 +56,12 @@ module.exports = class Dischook {
 		return this
 	}
 	/**
-	 * @param {String} text (Hex) Embeds color
+	 * @param {(String|Number)} text (HEX) Sets embeds color
 	 */
 	setColor(text) {
+		text =  text.replace(/#/g, '')
+		text = parseInt(text, 16)
+		console.log(text)
 		Object.assign(this.message.embeds[0], {
 			color: text
 		})
