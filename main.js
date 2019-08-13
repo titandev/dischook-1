@@ -1,6 +1,7 @@
 const { isEmpty } = require('lodash')
-const fetch = require('snekfetch')
-const { EmptyEmbed, EmptyMessage } = require('./libs/errors')
+const request = require('request')
+const chalk = require('chalk')
+const { EmptyMessage, InvalidWebhook } = require('./libs/errors')
 module.exports = class Dischook {
 	/**
 	 * @param {String} url Webhook URL
@@ -66,7 +67,7 @@ module.exports = class Dischook {
 	 * @description Changes the side bar color of the embed (1)
 	 */
 	setColor(text) {
-		text =  text.replace(/#/g, '')
+		text = text.replace(/#/g, '')
 		text = parseInt(text, 16)
 		Object.assign(this.message.embeds[0], {
 			color: text
@@ -94,6 +95,7 @@ module.exports = class Dischook {
 				'url': url
 			}
 		})
+		return this
 	}
 	/**
 	 * 
@@ -126,19 +128,25 @@ module.exports = class Dischook {
 	 * @returns Message to discord channel sent through webhook with POST request
 	 */
 	send(message = null) {
-		if (isEmpty(this.message.embeds[0]) && message) {
-			if (!message.replace(/\s/g, '').length) throw new EmptyMessage()
-			return fetch.post(this.webhook)
-				.send({
-					username: this.name,
-					avatar_url: this.avatar_url,
-					content: message
-				})
-				.then().catch(console.error)
+		async function post(webhook, data) {
+			data = JSON.stringify(data)
+			request.post(webhook, { form: data }, async (err, res) => {
+				// eslint-disable-next-line no-constant-condition
+				if (err) if (err.code === 'ECONNRESET' || 'ETIMEDOUT') throw new InvalidWebhook(__dirname, err.code)
+				res = res.toJSON()
+				if (res.body) 
+					res = JSON.parse(res.body)
+				if (res.code === 50006) throw new EmptyMessage
+				if (res.statusCode === 204)
+					console.log(chalk.green('[DISCHOOK]: ') + 'Successfully sent a \'POST\' request.')
+			})
 		}
-		if (!message && isEmpty(this.message.embeds[0])) throw new EmptyEmbed('main.js')
-		fetch.post(this.webhook)
-			.send(this.message)
-			.then().catch(console.error)
+		if (message && !isEmpty(this.message.embeds[0])) {
+			post(this.webhook, { 'content': message, 'embeds': this.message.embeds })
+		} else if (message && isEmpty(this.message.embeds[0])) {
+			post(this.webhook, { 'content': message })
+		} else if (!message && !isEmpty(this.message.embeds[0])) {
+			post(this.webhook, { 'embeds': this.message.embeds })
+		} else throw new EmptyMessage()
 	}
 }
