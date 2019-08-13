@@ -1,5 +1,3 @@
 node_modules
 .vsls.json
 test.js
-jsconfig.json
-.eslintrc.js
