@@ -86,6 +86,32 @@ module.exports = class Dischook {
 		return this
 	}
 	/**
+	 * @param {string} url Embeds image 
+	 */
+	setImage(url) {
+		Object.assign(this.message.embeds[0], {
+			image: {
+				'url': url
+			}
+		})
+	}
+	/**
+	 * 
+	 * @param {string} name the text of the author
+	 * @param {string} image the icon url
+	 * @param {string} url the url of the name 
+	 */
+	setAuthor(name, image = null, url = null) {
+		Object.assign(this.message.embeds[0], {
+			author: {
+				'name': name,
+				'url': url,
+				'icon_url': image,
+			}
+		})
+		return this
+	}
+	/**
 	 * @returns Current date
 	 * @description Adds a timestamp into the embed, with the time the message was sent at (1)
 	 */
