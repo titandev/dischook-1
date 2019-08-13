@@ -9,8 +9,6 @@
   "author": "Retr0n, Nightz",
   "license": "ISC",
   "dependencies": {
-    "chalk": "^2.4.2",
-    "lodash": "^4.17.15",
     "snekfetch": "^4.0.4"
   },
   "devDependencies": {
