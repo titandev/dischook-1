@@ -7,7 +7,7 @@ npm install dischook --save
 ```
 
 * Examples
->>> Embeds are done exactly like RichEmbed in the [Discord.JS](http://discord.js.org) libaray.
+> Embeds are done exactly like RichEmbed in the [Discord.JS](http://discord.js.org) libaray.
 
 > Requiring Dischook
 ```js
