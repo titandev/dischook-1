@@ -1,6 +1,5 @@
 const fetch = require('node-fetch')
-const { EmptyEmbed, EmptyMessage } = require('./libs/errors')
-
+const { InvalidWebhook, EmptyMessage } = require('./libs/errors')
 function isEmpty(obj) {
 	return Object.keys(obj).length === 0 && obj.constructor === Object
 }
@@ -130,28 +129,25 @@ module.exports = class Dischook {
 	 * @returns Message to discord channel sent through webhook with POST request
 	 */
 	send(message = null) {
-		if (isEmpty(this.message.embeds[0]) && message) {
-			if (!message.replace(/\s/g, '').length) throw new EmptyMessage()
-			fetch(this.webhook, {
+		async function post(webhook, data) {
+			data = JSON.stringify(data)
+			fetch(webhook, {
 				method: 'post',
-				body: JSON.stringify({username: this.name,avatar_url: this.avatar_url,content: message}),
+				body: data,
 				headers: { 'Content-Type': 'application/json' },
+			}).then().catch(err => {
+				if (err) {
+ 					if (err.code === 'ECONNRESET' || 'ETIMEDOUT') throw new InvalidWebhook(__dirname, err.code)
+                	if (err.body && err.body.code === 50006) throw new EmptyMessage()
+				}
 			})
-
-			/*return fetch.post(this.webhook)
-				.send({
-					username: this.name,
-					avatar_url: this.avatar_url,
-					content: message
-				})
-				.then().catch(console.error)
-				*/
 		}
-		if (!message && isEmpty(this.message.embeds[0])) throw new EmptyEmbed('main.js')
-		fetch(this.webhook, {
-			method: 'post',
-			body: JSON.stringify(this.message),
-			headers: { 'Content-Type': 'application/json' },
-		})
+		if (message && !isEmpty(this.message.embeds[0])) {
+			post(this.webhook, { "content": message, "embeds": this.message.embeds, "username": this.name, "avatar_url": this.avatar_url })
+		} else if (message && isEmpty(this.message.embeds[0])) {
+			post(this.webhook, { "content": message, "username": this.name, "avatar_url": this.avatar_url })
+		} else if (!message && !isEmpty(this.message.embeds[0])) {
+			post(this.webhook, { "embeds": this.message.embeds, "username": this.name, "avatar_url": this.avatar_url })
+		} else throw new EmptyMessage()
 	}
 }

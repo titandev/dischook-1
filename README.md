@@ -1,5 +1,5 @@
 # Dischook
-Dischook is an easy-to-use, yet powerful modules for interacting with Discord webhooks.
+Dischook is an easy-to-use but yet powerful modules for interacting with Discord webhooks.
 # Getting Started
 > Installing
 ```
@@ -7,7 +7,8 @@ npm install dischook --save
 ```
 
 * Examples
-Embeds are done exactly like RichEmbed in the [Discord.JS](http://discord.js.org) libaray.
+> Embeds are done exactly like RichEmbed in the [Discord.JS](http://discord.js.org) libaray.
+
 > Requiring Dischook
 ```js
 const dischook  =  require('dischook');
@@ -27,7 +28,7 @@ new dischook(webhookURL, 'Example Bot', avatarURL)
     .setFooter('Im a footer')
     .send()
 ```
-> You can also send normal messages. And yes, it supports markdown!
+> You can also send normal messages. you can also use markdown!
 ```js
 const dischook  =  require('dischook');
 

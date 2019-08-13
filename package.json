@@ -4,7 +4,8 @@
   "description": "A simple and lightweight webhook library for discord",
   "main": "main.js",
   "dependencies": {
-    "node-fetch": "^2.6.0"
+    "node-fetch": "^2.6.0",
+    "snekfetch": "^4.0.4"
   },
   "devDependencies": {
     "eslint": "^6.1.0"
