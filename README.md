@@ -1,5 +1,5 @@
 # Dischook
- An easy to use and very lightweight webhook library for sending messages to a discord channels
+ An easy to use and very lightweight webhook library for sending messages to discord channels
 # Examples
 ```js
 const dischook  =  require('dischook');
