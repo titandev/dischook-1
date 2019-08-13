@@ -27,7 +27,7 @@ new dischook(webhookURL, 'Example Bot', avatarURL)
     .setFooter('Im a footer')
     .send()
 ```
-> You can also send normal messages. you can also use markdown!
+> You can also send normal messages. And yes, it supports markdown!
 ```js
 const dischook  =  require('dischook');
 
