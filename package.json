@@ -4,9 +4,9 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"No test specified\""
   },
-  "author": "Retr0n, Nightz, Hunter",
+  "author": "Retr0n, Nightz",
   "license": "ISC",
   "dependencies": {
     "chalk": "^2.4.2",
