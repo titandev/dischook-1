@@ -1,3 +1,4 @@
+/* eslint-disable no-constant-condition */
 const fetch = require('node-fetch')
 const { InvalidWebhook, EmptyMessage } = require('./libs/errors')
 function isEmpty(obj) {
@@ -137,17 +138,18 @@ module.exports = class Dischook {
 				headers: { 'Content-Type': 'application/json' },
 			}).then().catch(err => {
 				if (err) {
- 					if (err.code === 'ECONNRESET' || 'ETIMEDOUT') throw new InvalidWebhook(__dirname, err.code)
-                	if (err.body && err.body.code === 50006) throw new EmptyMessage()
+					// eslint-disable-next-line no-undef
+					if (err.code === 'ECONNRESET' || 'ETIMEDOUT') throw new InvalidWebhook(__dirname, err.code)
+					if (err.body && err.body.code === 50006) throw new EmptyMessage()
 				}
 			})
 		}
 		if (message && !isEmpty(this.message.embeds[0])) {
-			post(this.webhook, { "content": message, "embeds": this.message.embeds, "username": this.name, "avatar_url": this.avatar_url })
+			post(this.webhook, { 'content': message, 'embeds': this.message.embeds, 'username': this.name, 'avatar_url': this.avatar_url })
 		} else if (message && isEmpty(this.message.embeds[0])) {
-			post(this.webhook, { "content": message, "username": this.name, "avatar_url": this.avatar_url })
+			post(this.webhook, { 'content': message, 'username': this.name, 'avatar_url': this.avatar_url })
 		} else if (!message && !isEmpty(this.message.embeds[0])) {
-			post(this.webhook, { "embeds": this.message.embeds, "username": this.name, "avatar_url": this.avatar_url })
+			post(this.webhook, { 'embeds': this.message.embeds, 'username': this.name, 'avatar_url': this.avatar_url })
 		} else throw new EmptyMessage()
 	}
 }
