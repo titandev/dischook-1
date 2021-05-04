@@ -1,2 +1,2 @@
 # Dischook
-This project has been discontinued
+Now at https://github.com/ITS-NIGHTOWL/webcord
